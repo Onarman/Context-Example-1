@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import StudentList from './components/StudentList';
+import { StudentContext } from './context/StudentContext';
+import data from './data';
 
 function App() {
+  const [students, setStudents] = useState(data);
+
+  const changeColor = (id,color) => {
+    setStudents(
+      students.map((student)=> 
+      student.id === id ?  {...student,color:color} : student
+    ))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {/* <StudentList students={students} /> */}
+      {/* <StudentContext.Provider value={{ students, setStudents }}> */}
+      <StudentContext.Provider value={{ students,changeColor }}>
+        <StudentList />
+      </StudentContext.Provider>
     </div>
   );
 }
-
 export default App;
